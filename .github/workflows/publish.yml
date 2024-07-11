@@ -1,0 +1,33 @@
+name: Build & Publish
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  run-publish-workflow:
+    name: Run `publish` workflow
+    uses: ./.github/workflows/libpublish.yml
+    permissions:
+      packages: write
+    with:
+      image-namespace: techneg-it
+      image-repo: ci-salt-minion
+      labels: org.opencontainers.image.authors=Dafydd Jones <4195158+dafyddj@users.noreply.github.com>
+    secrets:
+      registry-password: ${{ secrets.GITHUB_TOKEN }}
+      registry-username: ${{ github.repository_owner }}
+  report:
+    name: Report success
+    needs:
+      - run-publish-workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update Healthchecks.io
+        run: |
+          if [ -n "${HC_UUID}" ]; then
+            curl -fsS -m 10 --retry 5 -o /dev/null "https://hc-ping.com/${HC_UUID}"
+          fi
+        env:
+          HC_UUID: ${{ secrets.HC_UUID }}
