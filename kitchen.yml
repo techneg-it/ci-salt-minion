@@ -1,0 +1,18 @@
+---
+driver:
+  name: docker
+
+provisioner:
+  name: dummy
+
+verifier:
+  name: shell
+
+platforms:
+  - name: test
+    driver:
+      image: techneg-it/ci-salt-minion:local-test
+      platform: debian
+
+suites:
+  - name: default
