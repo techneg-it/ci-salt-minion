@@ -15,6 +15,7 @@ jobs:
       image-namespace: techneg-it
       image-repo: ci-salt-minion
       labels: org.opencontainers.image.authors=Dafydd Jones <4195158+dafyddj@users.noreply.github.com>
+      no-cache-filter: update
     secrets:
       registry-password: ${{ secrets.GITHUB_TOKEN }}
       registry-username: ${{ github.repository_owner }}
@@ -22,7 +23,7 @@ jobs:
     name: Report success
     needs:
       - run-publish-workflow
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Update Healthchecks.io
         run: |

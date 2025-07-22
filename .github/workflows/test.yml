@@ -13,15 +13,26 @@ concurrency:
   cancel-in-progress: ${{ github.ref != format('refs/heads/{0}', github.event.repository.default_branch) }}
 
 jobs:
+  should-run:
+    name: Should run
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      should-run: ${{ steps.action.outputs.should-run }}
+    steps:
+      - id: action
+        uses: techneg-it/should-workflow-run@eff19348eb884f57e05bc6f05ae48ece3af14714 # v1.0.1
   pre-commit:
     name: Run `pre-commit`
-    runs-on: ubuntu-latest
+    needs: should-run
+    if: fromJSON(needs.should-run.outputs.should-run)
+    runs-on: ubuntu-24.04
     env:
-      # renovate: datasource=github-releases depName=actions/python-versions extractVersion=^(?<version>\S+)-\d+$
-      PYTHON_VERSION: 3.12.4
+      # renovate: datasource=custom.python-versions depName=actions/python-versions versioning=pep440
+      PYTHON_VERSION: 3.13.5
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f # v5.1.1
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: ${{ env.PYTHON_VERSION }}
       - uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
@@ -35,5 +46,6 @@ jobs:
     with:
       image-namespace: techneg-it
       image-repo: ci-salt-minion
+      no-cache-filter: update
     secrets:
       push-token: ${{ secrets.PUSH_TOKEN }}
