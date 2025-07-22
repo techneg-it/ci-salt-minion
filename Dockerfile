@@ -12,8 +12,8 @@ RUN : \
 RUN : \
     && ARCH="${TARGETPLATFORM#*/}" \
     && mkdir -p /etc/apt/keyrings \
-    && curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring-2023.gpg https://repo.saltproject.io/salt/py3/debian/12/${ARCH}/SALT-PROJECT-GPG-PUBKEY-2023.gpg \
-    && echo "deb [signed-by=/etc/apt/keyrings/salt-archive-keyring-2023.gpg arch=${ARCH}] https://repo.saltproject.io/salt/py3/debian/12/${ARCH}/latest bookworm main" > /etc/apt/sources.list.d/salt.list \
+    && curl -fsSL -o /etc/apt/keyrings/salt-archive-keyring.pgp https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public \
+    && curl -fsSL -o /etc/apt/sources.list.d/salt.sources https://github.com/saltstack/salt-install-guide/releases/latest/download/salt.sources \
     && :
 
 RUN : \
