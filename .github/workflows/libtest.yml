@@ -60,7 +60,11 @@ jobs:
           CHEF_LICENSE: accept-silent
           # renovate: datasource=rubygems depName=kitchen-docker
           KITCHEN-DOCKER_VERSION: 3.0.0
-        run: chef gem install kitchen-docker --version ${{ env.KITCHEN-DOCKER_VERSION }}
+          # renovate: datasource=rubygems depName=kitchen-salt
+          KITCHEN-SALT_VERSION: 0.7.2
+        run: |
+          chef gem install kitchen-docker --version ${{ env.KITCHEN-DOCKER_VERSION }}
+          chef gem install kitchen-salt --version ${{ env.KITCHEN-SALT_VERSION }}
       - name: Run Test Kitchen
         run: kitchen test
       - name: Run `semantic-release`
