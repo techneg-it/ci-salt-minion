@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: v1.10.12
+_commit: v1.10.13
 _src_path: https://github.com/dafyddj/copier-docker-build
 container_registry: ghcr.io
 image_authors: Dafydd Jones <4195158+dafyddj@users.noreply.github.com>
