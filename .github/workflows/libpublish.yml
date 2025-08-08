@@ -3,6 +3,9 @@ name: Build & publish image
 on:
   workflow_call:
     inputs:
+      build-args:
+        required: false
+        type: string
       docker-registry:
         type: string
         default: ghcr.io
@@ -45,10 +48,16 @@ jobs:
         uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
+      - name: Extract flavor values
+        id: flavors
+        run: |
+          ${{ inputs.build-args }}
+          echo "value=$DISTRO_VERSION" >> "$GITHUB_OUTPUT"
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5.7.0
         with:
+          flavor: suffix=-${{ steps.flavors.outputs.value }},onlatest=true
           images: ${{ inputs.docker-registry }}/${{ inputs.image-namespace }}/${{ inputs.image-repo }}
           labels: ${{ inputs.labels }}
       - name: Log in to registry
@@ -65,6 +74,7 @@ jobs:
           push: ${{ inputs.release }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: ${ inputs.build-args }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           no-cache-filters: ${{ inputs.no-cache-filter }}

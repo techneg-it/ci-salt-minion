@@ -3,6 +3,9 @@ name: Build & test image
 on:
   workflow_call:
     inputs:
+      build-args:
+        required: false
+        type: string
       image-namespace:
         required: true
         type: string
@@ -44,6 +47,7 @@ jobs:
           context: .
           load: true
           tags: ${{ inputs.image-namespace }}/${{ inputs.image-repo }}:local-test
+          build-args: ${ inputs.build-args }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           no-cache-filters: ${{ inputs.no-cache-filter }}

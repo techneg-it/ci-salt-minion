@@ -1,4 +1,6 @@
-FROM debian:bookworm-slim@sha256:2424c1850714a4d94666ec928e24d86de958646737b1d113f5b2207be44d37d8 AS install
+ARG DISTRO_VERSION=12-slim
+
+FROM debian:${DISTRO_VERSION} AS install
 
 SHELL ["/bin/bash", "-x", "-o", "pipefail", "-c"]
 
@@ -12,7 +14,7 @@ ARG CA_CERTS_VERSION=20230311+deb12u1
 RUN : \
     && apt-get update \
     && apt-get install --yes --no-install-recommends \
-         ca-certificates=${CA_CERTS_VERSION} \
+         ca-certificates \
     && :
 
 ARG PIN_FILENAME=salt-pin-1001
