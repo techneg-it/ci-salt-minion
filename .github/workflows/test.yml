@@ -40,12 +40,20 @@ jobs:
     name: Run `test` workflow
     needs:
       - pre-commit
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - bookworm-slim
+          - trixie-slim
     uses: ./.github/workflows/libtest.yml
     permissions:
       contents: write
     with:
+      build-args: DISTRO_VERSION=${{ matrix.version }}
       image-namespace: techneg-it
       image-repo: ci-salt-minion
       no-cache-filter: update
+      release: false
     secrets:
       push-token: ${{ secrets.PUSH_TOKEN }}
