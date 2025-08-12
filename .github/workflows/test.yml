@@ -43,30 +43,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-<<<<<<< before updating
         version:
           - bookworm-slim
           - trixie-slim
-=======
-        key:
-          - value
->>>>>>> after updating
     uses: ./.github/workflows/libtest.yml
     with:
-<<<<<<< before updating
       build-args: DISTRO_VERSION=${{ matrix.version }}
       image-namespace: techneg-it
       image-repo: ci-salt-minion
       no-cache-filter: update
-      release: false
-    secrets:
-      push-token: ${{ secrets.PUSH_TOKEN }}
-=======
-      build-args: KEY=${{ matrix.key }}
-      image-namespace: techneg-it
-      image-repo: ci-salt-minion
-      no-cache-filter: update
->>>>>>> after updating
   results:
     name: Collect results
     permissions:
@@ -83,23 +68,12 @@ jobs:
     name: Release
     needs:
       - results
-<<<<<<< before updating
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-=======
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           persist-credentials: false    # Prevent credentials conflict when running `semantic-release`
->>>>>>> after updating
       - uses: codfish/semantic-release-action@b621d34fabe0940f031e89b6ebfea28322892a10 # v3.5.0
         with:
           plugins: |

@@ -36,11 +36,7 @@ jobs:
           context: .
           load: true
           tags: ${{ inputs.image-namespace }}/${{ inputs.image-repo }}:local-test
-<<<<<<< before updating
-          build-args: ${ inputs.build-args }}
-=======
           build-args: ${{ inputs.build-args }}
->>>>>>> after updating
           cache-from: type=gha
           cache-to: type=gha,mode=max
           no-cache-filters: ${{ inputs.no-cache-filter }}

@@ -74,11 +74,7 @@ jobs:
           push: ${{ inputs.release }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-<<<<<<< before updating
-          build-args: ${ inputs.build-args }}
-=======
           build-args: ${{ inputs.build-args }}
->>>>>>> after updating
           cache-from: type=gha
           cache-to: type=gha,mode=max
           no-cache-filters: ${{ inputs.no-cache-filter }}
