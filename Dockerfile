@@ -20,7 +20,7 @@ RUN : \
 ARG PIN_FILENAME=salt-pin-1001
 ARG SALT_VERSION=3006.14
 RUN : \
-    && echo 'Package: salt-*' >> /etc/apt/preferences.d/${PIN_FILENAME} \
+    && echo 'Package: salt-*' > /etc/apt/preferences.d/${PIN_FILENAME} \
     && echo "Pin: version ${SALT_VERSION}" >> /etc/apt/preferences.d/${PIN_FILENAME} \
     && echo 'Pin-Priority: 1001' >> /etc/apt/preferences.d/${PIN_FILENAME} \
     && :

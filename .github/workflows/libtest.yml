@@ -58,5 +58,12 @@ jobs:
         run: |
           chef gem install kitchen-docker --version ${{ env.KITCHEN-DOCKER_VERSION }}
           chef gem install kitchen-salt --version ${{ env.KITCHEN-SALT_VERSION }}
+      - name: Get Salt version
+        id: salt-version
+        run: |
+          ${{ inputs.build-args }}
+          echo "version=$SALT_VERSION" >> "$GITHUB_OUTPUT"
       - name: Run Test Kitchen
+        env:
+          SALT_VERSION: '${{ steps.salt-version.outputs.version }}'
         run: kitchen test
