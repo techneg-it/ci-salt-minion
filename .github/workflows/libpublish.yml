@@ -48,16 +48,16 @@ jobs:
         uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
-      - name: Extract flavor values
-        id: flavors
+      - name: Extract flavor
+        id: flavor
         run: |
           ${{ inputs.build-args }}
-          echo "value=$DISTRO_VERSION" >> "$GITHUB_OUTPUT"
+          echo "suffix=-${SALT_VERSION}-debian-${DISTRO_VERSION%%-*}" >> "$GITHUB_OUTPUT"
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f # v5.8.0
         with:
-          flavor: suffix=-${{ steps.flavors.outputs.value }},onlatest=true
+          flavor: suffix=${{ steps.flavor.outputs.suffix }},onlatest=true
           images: ${{ inputs.docker-registry }}/${{ inputs.image-namespace }}/${{ inputs.image-repo }}
           labels: ${{ inputs.labels }}
       - name: Log in to registry

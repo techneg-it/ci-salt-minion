@@ -11,14 +11,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version:
-          - bookworm-slim
+        distro-version:
+          - 12-slim
           - trixie-slim
+        salt-version:
+          - '3006.14'
+          - '3007.6'
     uses: ./.github/workflows/libpublish.yml
     permissions:
       packages: write
     with:
-      build-args: DISTRO_VERSION=${{ matrix.version }}
+      build-args: |
+        DISTRO_VERSION=${{ matrix.distro-version }}
+        SALT_VERSION=${{ matrix.salt-version }}
       image-namespace: techneg-it
       image-repo: ci-salt-minion
       labels: org.opencontainers.image.authors=Dafydd Jones <4195158+dafyddj@users.noreply.github.com>
