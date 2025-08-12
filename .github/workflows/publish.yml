@@ -11,14 +11,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+<<<<<<< before updating
         version:
           - bookworm-slim
           - trixie-slim
+=======
+        key:
+          - value
+>>>>>>> after updating
     uses: ./.github/workflows/libpublish.yml
     permissions:
       packages: write
     with:
+<<<<<<< before updating
       build-args: DISTRO_VERSION=${{ matrix.version }}
+=======
+      build-args: KEY=${{ matrix.key }}
+>>>>>>> after updating
       image-namespace: techneg-it
       image-repo: ci-salt-minion
       labels: org.opencontainers.image.authors=Dafydd Jones <4195158+dafyddj@users.noreply.github.com>
