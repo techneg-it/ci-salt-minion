@@ -45,7 +45,7 @@ jobs:
       matrix:
         distro-version:
           - 12-slim
-          - trixie-slim
+          - 13-slim
         salt-version:
           - '3006.14'
           - '3007.6'

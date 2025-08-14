@@ -9,12 +9,17 @@ ARG DEBIAN_FRONTEND=noninteractive
 COPY files/salt-archive-keyring.pgp /etc/apt/keyrings/
 COPY files/salt.sources /etc/apt/sources.list.d/
 
+ARG DISTRO_VERSION
+
 # renovate: datasource=repology depName=debian_12/ca-certificates versioning=deb
-ARG CA_CERTS_VERSION=20230311+deb12u1
+ARG CA_CERTS_12_VERSION=20230311+deb12u1
+# renovate: datasource=repology depName=debian_13/ca-certificates versioning=deb
+ARG CA_CERTS_13_VERSION=20250419
 RUN : \
+    && CCV="CA_CERTS_${DISTRO_VERSION%%-*}_VERSION" \
     && apt-get update \
     && apt-get install --yes --no-install-recommends \
-         ca-certificates \
+         ca-certificates=${!CCV} \
     && :
 
 ARG SALT_VERSION
