@@ -8,10 +8,12 @@ provisioner:
   salt_install: none
   state_collection: test/salt/states
 
+# <% abort("Please provide a SALT_VERSION env var") unless ENV["SALT_VERSION"] %>
+
 verifier:
   name: inspec
   inputs:
-    SALT_VERSION: '<%= ENV["SALT_VERSION"] || "3006.14" %>'
+    SALT_VERSION: '<%= ENV["SALT_VERSION"] %>'
 
 platforms:
   - name: test

@@ -1,4 +1,4 @@
-ARG DISTRO_VERSION=12-slim
+ARG DISTRO_VERSION
 
 FROM debian:${DISTRO_VERSION} AS install
 
@@ -17,8 +17,10 @@ RUN : \
          ca-certificates \
     && :
 
+ARG SALT_VERSION
+RUN : "${SALT_VERSION:?Please provide a SALT_VERSION env var}"
+
 ARG PIN_FILENAME=salt-pin-1001
-ARG SALT_VERSION=3006.14
 RUN : \
     && echo 'Package: salt-*' > /etc/apt/preferences.d/${PIN_FILENAME} \
     && echo "Pin: version ${SALT_VERSION}" >> /etc/apt/preferences.d/${PIN_FILENAME} \
