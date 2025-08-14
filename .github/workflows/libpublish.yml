@@ -52,7 +52,9 @@ jobs:
         id: flavor
         run: |
           ${{ inputs.build-args }}
-          echo "suffix=-${SALT_VERSION}-debian-${DISTRO_VERSION%%-*}" >> "$GITHUB_OUTPUT"
+          OUTPUT="suffix=-${SALT_VERSION}-debian-${DISTRO_VERSION%%-*}"
+          echo "Setting '$OUTPUT'"
+          echo "$OUTPUT" >> "$GITHUB_OUTPUT"
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f # v5.8.0
