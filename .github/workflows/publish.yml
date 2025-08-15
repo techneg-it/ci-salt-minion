@@ -6,17 +6,27 @@ on:
       - v*
 
 jobs:
+  gsv:
+    name: Get Salt versions
+    if: fromJSON(needs.should-run.outputs.should-run)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      salt-versions: ${{ steps.get-salt-versions.outputs.salt-versions }}
+    steps:
+      - id: get-salt-versions
+        uses: dafyddj/get-salt-versions@ac257a534c1352d2456c7e795e4c60705cb44378 # v3.4.7
   run-publish-workflow:
     name: Run `publish` workflow
+    needs: gsv
     strategy:
       fail-fast: false
       matrix:
         distro-version:
           - 12-slim
-          - trixie-slim
+          - 13-slim
         salt-version:
-          - '3006.14'
-          - '3007.6'
+          - ${{ fromJSON(needs.gsv.outputs.salt-versions) }}
     uses: ./.github/workflows/libpublish.yml
     permissions:
       packages: write
@@ -36,6 +46,7 @@ jobs:
     needs:
       - run-publish-workflow
     runs-on: ubuntu-24.04
+    timeout-minutes: 5
     steps:
       - name: Update Healthchecks.io
         run: |

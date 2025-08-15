@@ -27,6 +27,7 @@ jobs:
     needs: should-run
     if: fromJSON(needs.should-run.outputs.should-run)
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
     env:
       # renovate: datasource=custom.python-versions depName=actions/python-versions versioning=pep440
       PYTHON_VERSION: 3.13.6
@@ -36,9 +37,21 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
       - uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
+  gsv:
+    name: Get Salt versions
+    needs: should-run
+    if: fromJSON(needs.should-run.outputs.should-run)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      salt-versions: ${{ steps.get-salt-versions.outputs.salt-versions }}
+    steps:
+      - id: get-salt-versions
+        uses: dafyddj/get-salt-versions@ac257a534c1352d2456c7e795e4c60705cb44378 # v3.4.7
   run-test-workflow:
     name: Run `test` workflow
     needs:
+      - gsv
       - pre-commit
     strategy:
       fail-fast: false
@@ -47,8 +60,7 @@ jobs:
           - 12-slim
           - 13-slim
         salt-version:
-          - '3006.14'
-          - '3007.6'
+          - ${{ fromJSON(needs.gsv.outputs.salt-versions) }}
     uses: ./.github/workflows/libtest.yml
     with:
       build-args: |
