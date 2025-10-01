@@ -1,14 +1,5 @@
 {
   $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-<<<<<<< before updating
-  enabledManagers: [
-    'copier',
-    'custom.regex',
-    'dockerfile',
-    'git-submodules',
-  ],
-=======
->>>>>>> after updating
   extends: [
     'github>techneg-it/.github',
     'github>techneg-it/.github:check-jsonschema',
@@ -20,12 +11,7 @@
     ':automergeDigest',
     ':automergeMinor',
     ':semanticPrefixChore',
-<<<<<<< before updating
-    'config:recommended',
     'customManagers:dockerfileVersions',
-    'docker:pinDigests',
-=======
->>>>>>> after updating
   ],
   customDatasources: {
     omnitruck: {
