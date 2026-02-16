@@ -42,24 +42,10 @@ jobs:
           cache-to: type=gha,mode=max
           no-cache-filters: ${{ inputs.no-cache-filter }}
       - name: Install Test Kitchen
-<<<<<<< before updating
-        uses: actionshub/chef-install@776a917c09d87c381d1d5342f83cd554223fa49c # 3.0.1
-        env:
-          # renovate: datasource=custom.omnitruck depName=chef-workstation
-          CHEF_WS_VERSION: 25.12.1102
+        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
         with:
-          project: chef-workstation
-          version: ${{ env.CHEF_WS_VERSION }}
-      - name: Prepare Test Kitchen
-        env:
-          CHEF_LICENSE: accept-silent
-          # renovate: datasource=rubygems depName=kitchen-docker
-          KITCHEN-DOCKER_VERSION: 3.0.0
-          # renovate: datasource=rubygems depName=kitchen-salt
-          KITCHEN-SALT_VERSION: 0.7.2
-        run: |
-          chef gem install kitchen-docker --version ${{ env.KITCHEN-DOCKER_VERSION }}
-          chef gem install kitchen-salt --version ${{ env.KITCHEN-SALT_VERSION }}
+          bundler-cache: true
+          ruby-version: '3.1'
       - name: Get Salt version
         id: salt-version
         run: |
@@ -68,12 +54,4 @@ jobs:
       - name: Run Test Kitchen
         env:
           SALT_VERSION: '${{ steps.salt-version.outputs.version }}'
-        run: kitchen test
-=======
-        uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
-        with:
-          bundler-cache: true
-          ruby-version: '3.1'
-      - name: Run Test Kitchen
         run: bundle exec kitchen test
->>>>>>> after updating
