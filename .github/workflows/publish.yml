@@ -15,7 +15,7 @@ jobs:
       salt-versions: ${{ steps.get-salt-versions.outputs.salt-versions }}
     steps:
       - id: get-salt-versions
-        uses: dafyddj/get-salt-versions@a0656fa0c3a81226db09b421b6d53fff0ae36673 # v3.6.0
+        uses: dafyddj/get-salt-versions@114df3c31dd77cae4470be58bcf219081688230e # v3.6.3
   run-publish-workflow:
     name: Run `publish` workflow
     needs: gsv
