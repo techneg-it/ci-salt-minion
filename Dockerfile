@@ -14,7 +14,7 @@ ARG DISTRO_VERSION
 # renovate: datasource=repology depName=debian_12/ca-certificates versioning=deb
 ARG CA_CERTS_12_VERSION=20230311+deb12u1
 # renovate: datasource=repology depName=debian_13/ca-certificates versioning=deb
-ARG CA_CERTS_13_VERSION=20250419
+ARG CA_CERTS_13_VERSION=20250419+deb13u1
 RUN : \
     && CCV="CA_CERTS_${DISTRO_VERSION%%-*}_VERSION" \
     && apt-get update \
